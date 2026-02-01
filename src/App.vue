@@ -97,26 +97,35 @@ const getEffectiveCardClass = computed(() => {
 
   // 2. Jika Hari Efektif 0 (Belum ada isian sama sekali) -> HITAM
   if (hariEfektif === 0) {
-    return 'bg-slate-900 text-white shadow-inner border border-slate-700'; 
+    return 'bg-gradient-to-r from-slate-500 to-slate-800 text-white shadow-inner border border-slate-700'; 
   }
 
   // 3. Jika SAMA PERSIS (Selesai/Perfect) -> SAMA DENGAN HARI KERJA (Indigo Gradient)
   if (hariEfektif === hariKerja) {
-    return 'bg-linear-to-br from-indigo-600 to-indigo-800 text-white pop-primary';
+    return 'bg-gradient-to-bl from-indigo-600 to-indigo-800 text-white pop-primary';
   }
 
   // 4. Jika Variatif (0 < X < Hari Kerja) -> Traffic Light System
   const percentage = hariEfektif / hariKerja;
   
-  if (percentage < 0.33) {
+  if (percentage < 0.16) {
     // Merah (0% - 33%)
-    return 'bg-linear-to-br from-red-500 to-red-700 text-white shadow-lg shadow-red-200 border-t border-red-400';
-  } else if (percentage < 0.75) {
-    // Amber/Orange (33% - 75%)
-    return 'bg-linear-to-br from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-200 border-t border-amber-400';
+    return 'bg-gradient-to-br from-slate-500 to-slate-700 text-white shadow-sm shadow-slate-200 border-t border-slate-400';
+  } else if (percentage < 0.26) {
+    return 'bg-gradient-to-br from-pink-500 to-rose-600 text-white shadow-sm shadow-rose-200 border-t border-rose-400';
+  } else if (percentage < 0.36) {
+    return 'bg-gradient-to-br from-amber-200 to-yellow-500 text-white shadow-sm shadow-yellow-200 border-t border-yellow-400';
+  } else if (percentage < 0.51) {
+    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+  } else if (percentage < 0.66) {
+    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+  } else if (percentage < 0.76) {
+    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+  } else if (percentage < 0.86) {
+    return 'bg-gradient-to-br from-yellow-600 to-emerald-500 text-white shadow-sm shadow-emerald-200 border-t border-emerald-400';
   } else {
     // Hijau/Emerald (75% - 99%)
-    return 'bg-linear-to-br from-emerald-500 to-emerald-700 text-white shadow-lg shadow-emerald-200 border-t border-emerald-400';
+    return 'bg-gradient-to-br from-emerald-500 to-indigo-500 text-white shadow-sm shadow-indigo-200 border-t border-indigo-400';
   }
 });
 
@@ -277,7 +286,10 @@ const handleDeleteRow = async (dateObj) => {
         <button 
           @click="handleShow"
           :disabled="isLoading"
-          class="w-full bg-linear-to-br from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 pop-primary btn-press disabled:opacity-70 disabled:pointer-events-none"
+          class="w-full text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 pop-primary btn-press disabled:pointer-events-none"
+          :class="isLoading 
+            ? 'bg-linear-to-br from-slate-400 to-slate-500 cursor-not-allowed' 
+            : 'bg-linear-to-br from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600'"
         >
           <Loader2 v-if="isLoading" class="animate-spin w-5 h-5 drop-shadow-sm" />
           <Search v-else class="w-5 h-5 drop-shadow-sm" />
@@ -308,7 +320,7 @@ const handleDeleteRow = async (dateObj) => {
               class="p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out relative overflow-hidden"
               :class="getEffectiveCardClass"
             >
-              <div v-if="stats.hariEfektif === stats.hariKerja && stats.hariKerja > 0" class="absolute inset-0 bg-white/20 animate-pulse"></div>
+              <div v-if="stats.hariEfektif === stats.hariKerja && stats.hariKerja > 0" ></div>
 
               <span class="text-xs font-bold uppercase tracking-wider drop-shadow-sm relative z-10 opacity-90">Hari Efektif</span>
               <span class="text-3xl font-black mt-1 drop-shadow-md relative z-10">{{ stats.hariEfektif }}</span>
@@ -318,17 +330,17 @@ const handleDeleteRow = async (dateObj) => {
 
           <div class="bg-white rounded-2xl overflow-hidden pop-light">
             <div class="grid grid-cols-12 bg-slate-50/80 border-b border-slate-200/80 py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider backdrop-blur-sm">
-              <div class="col-span-4">Tanggal</div>
-              <div class="col-span-5">Shipment ID</div>
-              <div class="col-span-3 text-right">Aksi</div>
+              <div class="col-span-4 text-left">Tanggal</div>
+              <div class="col-span-5 text-center">Shipment ID</div>
+              <div class="col-span-3 text-center">Aksi</div>
             </div>
 
             <div class="divide-y divide-slate-100/50">
               <div 
                 v-for="dateObj in generatedDates" 
                 :key="dateObj.fullDate"
-                class="grid grid-cols-12 items-center py-3 px-4 transition-colors hover:bg-indigo-50/30"
-                :class="{'bg-red-50/50': dateObj.isLocked}"
+                class="grid grid-cols-12 items-center py-3 px-4 transition-colors hover:bg-indigo-100"
+                :class="{'bg-red-100': dateObj.isLocked}"
               >
                 <div class="col-span-4 flex flex-col justify-center">
                   <span class="text-sm font-bold text-slate-700 drop-shadow-sm" :class="{'text-red-600': dateObj.isLocked}">

@@ -44,6 +44,6 @@ input[type=number]::-webkit-outer-spin-button {
   
   /* Efek Tombol ditekan */
   .btn-press:active {
-    @apply translate-y-[2px] shadow-none border-t-transparent;
+    @apply translate-y-0.5 shadow-none border-t-transparent;
   }
 }
