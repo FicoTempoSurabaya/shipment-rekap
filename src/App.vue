@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 // --- CONFIGURATION ---
 const API_URL = 'https://script.google.com/macros/s/AKfycbze8N3rocRoWDzAwtJoJ9uQkRjlxLgxxLtSORV9upHhR2e7WcXWj1LbQfyKwAdw1_ahmQ/exec'; 
 
+
 // --- STATE ---
 const users = ref([]);
 const holidays = ref({}); 
