@@ -17,10 +17,12 @@ const isLoading = ref(false);
 const isSaving = ref(false);
 const showTable = ref(false);
 
-// --- FETCH INITIAL DATA ---
+// --- FETCH INITIAL DATA (WITH ANTI-CACHE) ---
 const fetchInitialData = async () => {
   try {
-    const res = await fetch(`${API_URL}?action=getInitialData`);
+    // Penambahan `&nocache=${new Date().getTime()}` memaksa browser mengambil data baru dari server
+    const uniqueUrl = `${API_URL}?action=getInitialData&nocache=${new Date().getTime()}`;
+    const res = await fetch(uniqueUrl);
     const data = await res.json();
     users.value = data.users;
     holidays.value = data.holidays; 
@@ -143,11 +145,13 @@ const handleShow = async () => {
   shipmentsData.value = {}; 
 
   try {
+    // Tambahkan nocache juga di sini untuk memastikan data shipment terbaru
     const params = new URLSearchParams({
       action: 'getShipments',
       nama: selectedUser.value.nama,
       startDate: dateStart.value,
-      endDate: dateEnd.value
+      endDate: dateEnd.value,
+      nocache: new Date().getTime() 
     });
     
     const res = await fetch(`${API_URL}?${params.toString()}`);
@@ -318,7 +322,7 @@ const handleDeleteRow = async (dateObj) => {
               class="p-4 rounded-2xl flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out relative overflow-hidden"
               :class="getEffectiveCardClass"
             >
-              <div v-if="stats.hariEfektif === stats.hariKerja && stats.hariKerja > 0" ></div>
+              <div v-if="stats.hariEfektif === stats.hariKerja && stats.hariKerja > 0" class="absolute inset-0 bg-white/20 animate-pulse"></div>
 
               <span class="text-xs font-bold uppercase tracking-wider drop-shadow-sm relative z-10 opacity-90">Hari Efektif</span>
               <span class="text-3xl font-black mt-1 drop-shadow-md relative z-10">{{ stats.hariEfektif }}</span>
