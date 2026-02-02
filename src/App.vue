@@ -97,35 +97,33 @@ const getEffectiveCardClass = computed(() => {
 
   // 2. Jika Hari Efektif 0 (Belum ada isian sama sekali) -> HITAM
   if (hariEfektif === 0) {
-    return 'bg-gradient-to-r from-slate-500 to-slate-800 text-white shadow-inner border border-slate-700'; 
+    return 'bg-gradient-to-r from-slate-800 to-slate-800 text-white pop-primary'; 
   }
 
   // 3. Jika SAMA PERSIS (Selesai/Perfect) -> SAMA DENGAN HARI KERJA (Indigo Gradient)
   if (hariEfektif === hariKerja) {
-    return 'bg-gradient-to-bl from-indigo-600 to-indigo-800 text-white pop-primary';
+    return 'bg-gradient-to-bl from-indigo-600 to-indigo-800 text-white pop-primary shadow-sm shadow-indigo-800';
   }
 
   // 4. Jika Variatif (0 < X < Hari Kerja) -> Traffic Light System
   const percentage = hariEfektif / hariKerja;
   
   if (percentage < 0.16) {
-    // Merah (0% - 33%)
-    return 'bg-gradient-to-br from-slate-500 to-slate-700 text-white shadow-sm shadow-slate-200 border-t border-slate-400';
+    return 'bg-gradient-to-br from-slate-800 to-slate-300 text-white pop-primary shadow-sm shadow-slate-800';
   } else if (percentage < 0.26) {
-    return 'bg-gradient-to-br from-pink-500 to-rose-600 text-white shadow-sm shadow-rose-200 border-t border-rose-400';
+    return 'bg-gradient-to-br from-slate-400 to-stone-800 text-white pop-primary shadow-sm shadow-stone-800';
   } else if (percentage < 0.36) {
-    return 'bg-gradient-to-br from-amber-200 to-yellow-500 text-white shadow-sm shadow-yellow-200 border-t border-yellow-400';
+    return 'bg-gradient-to-bl from-stone-800 to-pink-500 text-white pop-primary shadow-sm shadow-pink-800';
   } else if (percentage < 0.51) {
-    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+    return 'bg-gradient-to-bl from-pink-500 to-red-700 text-white pop-primary shadow-sm shadow-red-800';
   } else if (percentage < 0.66) {
-    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+    return 'bg-gradient-to-br from-red-500 to-amber-400 text-white pop-primary shadow-sm shadow-amber-800' ;
   } else if (percentage < 0.76) {
-    return 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm shadow-amber-200 border-t border-amber-400';
+    return 'bg-gradient-to-br from-amber-600 to-yellow-300 text-white pop-primary shadow-sm shadow-yellow-800';
   } else if (percentage < 0.86) {
-    return 'bg-gradient-to-br from-yellow-600 to-emerald-500 text-white shadow-sm shadow-emerald-200 border-t border-emerald-400';
+    return 'bg-gradient-to-bl from-yellow-400 to-green-600 text-white pop-primary shadow-sm shadow-green-800';
   } else {
-    // Hijau/Emerald (75% - 99%)
-    return 'bg-gradient-to-br from-emerald-500 to-indigo-500 text-white shadow-sm shadow-indigo-200 border-t border-indigo-400';
+    return 'bg-gradient-to-bl from-green-600 to-indigo-600 text-white pop-primary shadow-sm shadow-indigo-800';
   }
 });
 
@@ -298,10 +296,10 @@ const handleDeleteRow = async (dateObj) => {
       </div>
 
       <transition
-        enter-active-class="transition duration-500 ease-out"
+        enter-active-class="transition duration-800 ease-out"
         enter-from-class="transform translate-y-4 opacity-0"
         enter-to-class="transform translate-y-0 opacity-100"
-        leave-active-class="transition duration-300 ease-in"
+        leave-active-class="transition duration-800 ease-in"
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
@@ -309,7 +307,7 @@ const handleDeleteRow = async (dateObj) => {
           
           <div class="grid grid-cols-2 gap-4">
             
-            <div class="bg-linear-to-br from-indigo-600 to-indigo-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center text-white pop-primary relative overflow-hidden group">
+            <div class="bg-linear-to-br from-indigo-600 to-indigo-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center text-white pop-primary shadow-sm shadow-indigo-800 relative overflow-hidden group">
               <div class="absolute top-0 right-0 -mt-2 -mr-2 w-16 h-16 bg-white opacity-10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
               
               <span class="text-xs text-indigo-100 font-bold uppercase tracking-wider drop-shadow-sm relative z-10">Hari Kerja</span>
